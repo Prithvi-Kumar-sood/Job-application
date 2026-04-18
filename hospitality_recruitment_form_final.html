@@ -1,0 +1,401 @@
+
+<style>
+  .fw{max-width:680px;margin:0 auto;padding:1.5rem 0 2rem;font-family:var(--font-sans);}
+  .fh{margin-bottom:1.75rem;border-bottom:0.5px solid var(--color-border-tertiary);padding-bottom:1.25rem;}
+  .fh h1{font-size:22px;font-weight:500;color:var(--color-text-primary);margin:0 0 4px;}
+  .fh p{font-size:14px;color:var(--color-text-secondary);margin:0;}
+  .sec{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-bottom:1rem;}
+  .stitle{font-size:12px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:0.05em;margin:0 0 1rem;}
+  .fr{display:grid;gap:12px;margin-bottom:12px;}
+  .fr2{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .fr3{grid-template-columns:repeat(3,minmax(0,1fr));}
+  .fr1{grid-template-columns:1fr;}
+  .fd{display:flex;flex-direction:column;gap:5px;}
+  .fd label{font-size:13px;color:var(--color-text-secondary);}
+  .fd label .req{color:#D85A30;margin-left:2px;}
+  .fd input,.fd select,.fd textarea{font-family:var(--font-sans);}
+  .fd textarea{resize:vertical;min-height:80px;}
+  .radio-row{display:flex;gap:16px;margin-top:4px;flex-wrap:wrap;}
+  .radio-row label{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--color-text-primary);cursor:pointer;font-weight:400;}
+  .radio-row input[type=radio]{width:15px;height:15px;cursor:pointer;accent-color:var(--color-text-primary);}
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}
+  .chip{display:flex;align-items:center;gap:6px;background:var(--color-background-info);color:var(--color-text-info);border-radius:99px;padding:4px 10px 4px 12px;font-size:13px;}
+  .chip button{background:none;border:none;color:var(--color-text-info);cursor:pointer;font-size:16px;line-height:1;padding:0;opacity:.7;}
+  .chip button:hover{opacity:1;}
+  .skill-add{display:flex;gap:8px;margin-top:8px;}
+  .skill-add input{flex:1;}
+  .skill-add button{padding:0 14px;font-size:13px;white-space:nowrap;}
+  .upload-zone{border:1.5px dashed var(--color-border-secondary);border-radius:var(--border-radius-md);padding:1.25rem;text-align:center;cursor:pointer;background:var(--color-background-secondary);position:relative;}
+  .upload-zone:hover{background:var(--color-background-tertiary);}
+  .upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+  .upload-label{font-size:14px;color:var(--color-text-primary);font-weight:500;margin:0 0 3px;}
+  .upload-hint{font-size:12px;color:var(--color-text-tertiary);margin:0;}
+  .cv-ok{display:none;margin-top:10px;font-size:13px;color:var(--color-text-success);}
+  .consent-row{display:flex;align-items:flex-start;gap:10px;margin-top:4px;}
+  .consent-row input[type=checkbox]{margin-top:3px;flex-shrink:0;width:16px;height:16px;cursor:pointer;}
+  .consent-row label{font-size:13px;color:var(--color-text-secondary);line-height:1.5;cursor:pointer;}
+  .sub-btn{width:100%;padding:12px;font-size:15px;font-weight:500;background:var(--color-text-primary);color:var(--color-background-primary);border:none;border-radius:var(--border-radius-md);cursor:pointer;margin-top:1rem;transition:opacity .15s;}
+  .sub-btn:hover{opacity:.85;}
+  .ok-banner{display:none;background:var(--color-background-success);border:0.5px solid var(--color-border-success);border-radius:var(--border-radius-lg);padding:1.5rem;text-align:center;margin-top:1rem;}
+  .ok-banner p{color:var(--color-text-success);margin:0;font-size:15px;font-weight:500;}
+  .prog-bar{height:3px;background:var(--color-border-tertiary);border-radius:99px;margin-bottom:1.5rem;overflow:hidden;}
+  .prog-fill{height:100%;background:var(--color-text-primary);border-radius:99px;transition:width .3s;width:0%;}
+  .step-lbl{font-size:12px;color:var(--color-text-tertiary);margin-bottom:6px;}
+  .divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:1rem 0;}
+  .hint{font-size:12px;color:var(--color-text-tertiary);margin-top:3px;}
+  .other-desig{margin-top:8px;display:none;}
+</style>
+
+<div class="fw">
+  <h2 class="sr-only">Hospitality job application form</h2>
+  <div class="fh">
+    <h1>Job Application Form</h1>
+    <p>Fields marked <span style="color:#D85A30;">*</span> are required. Please fill in all sections carefully.</p>
+  </div>
+
+  <div class="step-lbl" id="step-lbl">Section 1 of 5 — Personal Information</div>
+  <div class="prog-bar"><div class="prog-fill" id="prog"></div></div>
+
+  <div class="sec">
+    <p class="stitle">Personal Information</p>
+    <div class="fr fr2">
+      <div class="fd"><label>First Name <span class="req">*</span></label><input type="text" id="fname" placeholder="e.g. Riya" oninput="calcProg()"></div>
+      <div class="fd"><label>Last Name <span class="req">*</span></label><input type="text" id="lname" placeholder="e.g. Sharma" oninput="calcProg()"></div>
+    </div>
+    <div class="fr fr2">
+      <div class="fd"><label>Email Address <span class="req">*</span></label><input type="email" id="email" placeholder="e.g. riya.sharma@email.com" oninput="calcProg()"></div>
+      <div class="fd"><label>Phone Number <span class="req">*</span></label><input type="tel" id="phone" placeholder="e.g. +91 98765 43210" oninput="calcProg()"></div>
+    </div>
+    <div class="fr fr2">
+      <div class="fd"><label>Current Location <span class="req">*</span></label><input type="text" id="location" placeholder="e.g. Mumbai, Maharashtra" oninput="calcProg()"></div>
+      <div class="fd"><label>Age <span class="req">*</span></label><input type="number" id="age" placeholder="e.g. 28" min="18" max="70" oninput="calcProg()"></div>
+    </div>
+    <div class="fr fr1">
+      <div class="fd"><label>LinkedIn Profile URL</label><input type="url" id="linkedin" placeholder="e.g. https://linkedin.com/in/riya-sharma"></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <p class="stitle">Role Details</p>
+    <div class="fr fr2">
+      <div class="fd">
+        <label>Department <span class="req">*</span></label>
+        <select id="dept" onchange="updateDesignations();calcProg()">
+          <option value="">Select Department</option>
+          <option>Business Development</option>
+          <option>Engineering</option>
+          <option>Executive Office</option>
+          <option>F &amp; B Production</option>
+          <option>F &amp; B Service</option>
+          <option>Finance</option>
+          <option>Front Office</option>
+          <option>Housekeeping</option>
+          <option>Human Resources</option>
+          <option>Information Technology</option>
+          <option>Reservation</option>
+          <option>Security</option>
+        </select>
+      </div>
+      <div class="fd">
+        <label>Position Applied For <span class="req">*</span></label>
+        <select id="position" onchange="toggleOtherDesig();calcProg()">
+          <option value="">Select Department First</option>
+        </select>
+        <div class="other-desig" id="other-desig-wrap">
+          <input type="text" id="other-desig" placeholder="Please specify your designation" oninput="calcProg()">
+        </div>
+      </div>
+    </div>
+    <div class="fr fr2">
+      <div class="fd"><label>Employment Type</label>
+        <select id="emptype">
+          <option value="">Select Type</option>
+          <option>Full-Time</option>
+          <option>Part-Time</option>
+          <option>Contract</option>
+          <option>Internship / Trainee</option>
+          <option>Apprenticeship</option>
+        </select>
+      </div>
+      <div class="fd"><label>Work Preference</label>
+        <select id="workpref">
+          <option value="">Select Preference</option>
+          <option>On-Property (On-Site)</option>
+          <option>Remote (Where Applicable)</option>
+          <option>Hybrid</option>
+          <option>Flexible / Open</option>
+        </select>
+      </div>
+    </div>
+    <div class="fr fr2">
+      <div class="fd"><label>Total Years of Experience <span class="req">*</span></label>
+        <select id="exp" onchange="calcProg()">
+          <option value="">Select Experience</option>
+          <option>Fresher (0–1 Year)</option>
+          <option>1–2 Years</option>
+          <option>2–3 Years</option>
+          <option>3–5 Years</option>
+          <option>5–8 Years</option>
+          <option>8–12 Years</option>
+          <option>12–15 Years</option>
+          <option>15+ Years</option>
+        </select>
+      </div>
+      <div class="fd"><label>Notice Period</label>
+        <select id="notice">
+          <option value="">Select Notice Period</option>
+          <option>Immediately Available</option>
+          <option>15 Days</option>
+          <option>1 Month</option>
+          <option>2 Months</option>
+          <option>3 Months</option>
+          <option>More Than 3 Months</option>
+        </select>
+      </div>
+    </div>
+    <div class="fr fr1">
+      <div class="fd">
+        <label>Ready to Relocate? <span class="req">*</span></label>
+        <div class="radio-row" onchange="calcProg()">
+          <label><input type="radio" name="relocate" value="Yes"> Yes, Willing to Relocate</label>
+          <label><input type="radio" name="relocate" value="No"> No, Prefer Current City</label>
+          <label><input type="radio" name="relocate" value="Maybe"> Open to Discussion</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <p class="stitle">Current / Last Employment</p>
+    <div class="fr fr2">
+      <div class="fd"><label>Current / Last Position <span class="req">*</span></label><input type="text" id="curpos" placeholder="e.g. Front Office Supervisor" oninput="calcProg()"></div>
+      <div class="fd"><label>Current / Last Organisation <span class="req">*</span></label><input type="text" id="curorg" placeholder="e.g. The Oberoi, New Delhi" oninput="calcProg()"></div>
+    </div>
+    <div class="fr fr2">
+      <div class="fd">
+        <label>Current / Last CTC <span class="req">*</span></label>
+        <input type="text" id="curctc" placeholder="e.g. ₹6,00,000 Per Annum" oninput="calcProg()">
+        <span class="hint">Enter annual gross package</span>
+      </div>
+      <div class="fd">
+        <label>Expected CTC <span class="req">*</span></label>
+        <input type="text" id="expctc" placeholder="e.g. ₹8,00,000 Per Annum" oninput="calcProg()">
+        <span class="hint">Enter expected annual package</span>
+      </div>
+    </div>
+    <div class="fr fr1">
+      <div class="fd"><label>How Did You Hear About Us?</label>
+        <select id="source">
+          <option value="">Select Source</option>
+          <option>LinkedIn</option>
+          <option>Naukri / Indeed / Shine</option>
+          <option>Company Website</option>
+          <option>Employee Referral</option>
+          <option>Job Fair / Campus Drive</option>
+          <option>Social Media</option>
+          <option>Recruitment Consultant</option>
+          <option>Walk-In</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <p class="stitle">Skills &amp; Education</p>
+    <div class="fd">
+      <label>Key Skills</label>
+      <div class="skill-add">
+        <input type="text" id="skill-inp" placeholder="e.g. Opera PMS, Guest Relations, HACCP, Revenue Management…" onkeydown="if(event.key==='Enter'){addSkill();event.preventDefault();}">
+        <button onclick="addSkill()">+ Add</button>
+      </div>
+      <div class="chip-row" id="chips"></div>
+    </div>
+    <hr class="divider">
+    <div class="fr fr3" style="margin-top:0;">
+      <div class="fd"><label>Highest Qualification</label>
+        <select id="edu">
+          <option value="">Select Qualification</option>
+          <option>High School / 12th</option>
+          <option>Diploma in Hotel Management</option>
+          <option>Bachelor's in Hotel Management (BHM)</option>
+          <option>Bachelor's Degree (Other)</option>
+          <option>Master's in Hotel Management</option>
+          <option>MBA / PGDM</option>
+          <option>PhD / Doctorate</option>
+          <option>Craft Certificate</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="fd"><label>Field of Study</label><input type="text" id="field" placeholder="e.g. Hotel Management"></div>
+      <div class="fd"><label>Graduation Year</label><input type="number" id="gradyr" placeholder="e.g. 2022" min="1970" max="2030"></div>
+    </div>
+    <div class="fr fr1">
+      <div class="fd"><label>Languages Known</label><input type="text" id="langs" placeholder="e.g. English, Hindi, French, Arabic…"></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <p class="stitle">Interview Availability</p>
+    <div class="fr fr2">
+      <div class="fd">
+        <label>Available for Interview From <span class="req">*</span></label>
+        <input type="date" id="intdate" oninput="calcProg()">
+      </div>
+      <div class="fd">
+        <label>Preferred Interview Time Slot <span class="req">*</span></label>
+        <select id="inttime" onchange="calcProg()">
+          <option value="">Select Time Slot</option>
+          <option>Morning (9:00 AM – 12:00 PM)</option>
+          <option>Afternoon (12:00 PM – 3:00 PM)</option>
+          <option>Late Afternoon (3:00 PM – 6:00 PM)</option>
+          <option>Evening (6:00 PM – 8:00 PM)</option>
+          <option>Flexible / Any Time</option>
+        </select>
+      </div>
+    </div>
+    <div class="fr fr1">
+      <div class="fd">
+        <label>Preferred Interview Mode <span class="req">*</span></label>
+        <div class="radio-row" onchange="calcProg()">
+          <label><input type="radio" name="intmode" value="Video Call"> Video Call (Online)</label>
+          <label><input type="radio" name="intmode" value="Phone Call"> Phone Call</label>
+          <label><input type="radio" name="intmode" value="In-Person"> In-Person (Physical)</label>
+          <label><input type="radio" name="intmode" value="Any"> Any / Flexible</label>
+        </div>
+      </div>
+    </div>
+    <div class="fr fr1">
+      <div class="fd">
+        <label>Can You Attend a Physical Round of Interview if Required? <span class="req">*</span></label>
+        <div class="radio-row" onchange="calcProg()">
+          <label><input type="radio" name="physicalint" value="Yes"> Yes, I Can Attend In Person</label>
+          <label><input type="radio" name="physicalint" value="No"> No, Only Virtual Rounds</label>
+          <label><input type="radio" name="physicalint" value="Maybe"> Depends on Location / Notice</label>
+        </div>
+      </div>
+    </div>
+    <div class="fr fr1" style="margin-top:4px;">
+      <div class="fd"><label>Additional Notes on Availability</label>
+        <textarea id="avnotes" placeholder="e.g. Not available on public holidays, currently serving notice period, shift constraints…" style="min-height:68px;"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <p class="stitle">CV / Résumé Upload</p>
+    <div class="upload-zone">
+      <input type="file" id="cv-file" accept=".pdf,.doc,.docx" onchange="handleCV(this)">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto 8px;">
+        <rect width="32" height="32" rx="8" fill="var(--color-background-secondary)"/>
+        <path d="M16 8v12M10 14l6-6 6 6" stroke="var(--color-text-secondary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M10 22h12" stroke="var(--color-text-secondary)" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <p class="upload-label">Click to Upload Your CV</p>
+      <p class="upload-hint">Accepted Formats: PDF, DOC, DOCX — Maximum Size: 5 MB</p>
+    </div>
+    <div class="cv-ok" id="cv-ok">&#10003; File Attached: <span id="cv-name"></span></div>
+    <hr class="divider">
+    <div class="consent-row">
+      <input type="checkbox" id="consent" onchange="calcProg()">
+      <label for="consent">I confirm that all the information provided in this form is true and accurate to the best of my knowledge. I consent to this data being stored and processed for recruitment purposes in accordance with applicable data protection laws.</label>
+    </div>
+  </div>
+
+  <button class="sub-btn" onclick="submitForm()">Submit Application</button>
+  <div class="ok-banner" id="ok-banner">
+    <p>&#10003; &nbsp;Application Submitted Successfully!</p>
+    <p style="font-size:13px;font-weight:400;margin-top:6px;color:var(--color-text-success);">Thank you for applying. Our Talent Acquisition team will review your profile and get in touch with you within 5–7 business days.</p>
+  </div>
+</div>
+
+<script>
+const deptDesig = {
+  "Business Development": [
+    "Director of Sales & Marketing","Director of Sales","Director of Catering Sales","Associate Director of Sales","Senior Sales Manager","Sales Manager","Assistant Sales Manager","Sales Executive","Sales Coordinator","Cluster Marketing Manager","Other (Please Specify)"
+  ],
+  "Engineering": [
+    "Director of Engineering","Shift Engineer","Engineering Supervisor","Engineering Agent - Multiskilled","Technician - Multiskilled","Maintenance Technician","Kitchen Technician","Fire Officer","Fire Technician","Senior Plumber","Plumber","Senior Painter","Driver","Other (Please Specify)"
+  ],
+  "Executive Office": [
+    "General Manager","Assistant General Manager","Executive Assistant to General Manager","Duty Manager","Assistant Manager","Other (Please Specify)"
+  ],
+  "F & B Production": [
+    "Executive Chef","Chef de Cuisine","Sous Chef","Junior Sous Chef","Chef de Partie","Senior Chef de Partie","Demi Chef de Partie","Commis I","Commis II","Commis III","Hygiene Manager","Food & Beverage Controller","Kitchen Stewarding Supervisor","Assistant Manager - Stewarding","Stewarding Executive","Purchase Manager","Purchase Executive","Purchase Assistant","Store Assistant","Other (Please Specify)"
+  ],
+  "F & B Service": [
+    "Food & Beverage Manager","Assistant Manager - F & B","Food & Beverage Executive","Food & Beverage Supervisor","Restaurant Manager","Assistant Restaurant Manager","Banquet Manager","Captain","Trainee Captain","Other (Please Specify)"
+  ],
+  "Finance": [
+    "Director of Finance & Business Support","Finance Manager","Assistant Finance Manager","Credit Manager","Senior Finance Executive","Finance Executive","Finance Associate (Controller)","Food & Beverage Controller","Other (Please Specify)"
+  ],
+  "Front Office": [
+    "Front Office Manager","Assistant Front Office Manager","Assistant Manager - Front Office","Duty Manager","Front Office Supervisor","Front Office Executive","Guest Service Supervisor","Senior Guest Service Associate","Guest Service Associate","Desk Coordinator","Telephones Supervisor","Other (Please Specify)"
+  ],
+  "Housekeeping": [
+    "Executive Housekeeper","Assistant Manager - Housekeeping","Housekeeping Supervisor","Housekeeping Executive","Laundry Manager","Laundry Supervisor","Laundry Valet","Other (Please Specify)"
+  ],
+  "Human Resources": [
+    "Human Resources Manager","Assistant Human Resources Manager","Assistant Training Manager","Human Resources Executive","HR Coordinator","Other (Please Specify)"
+  ],
+  "Information Technology": [
+    "Director of Information Technology","IT Manager","Assistant IT Manager","IT Executive","IT Support Technician","Other (Please Specify)"
+  ],
+  "Reservation": [
+    "Director of Revenue","Revenue Manager","Reservations Manager","Assistant Reservations Manager","Reservation Executive","Reservation Agent","Other (Please Specify)"
+  ],
+  "Security": [
+    "Security Manager","Assistant Security Manager","Security Supervisor","Security Officer","Security Associate","Other (Please Specify)"
+  ]
+};
+
+function updateDesignations(){
+  const dept=document.getElementById('dept').value;
+  const pos=document.getElementById('position');
+  pos.innerHTML='<option value="">Select Designation</option>';
+  if(dept&&deptDesig[dept]){deptDesig[dept].forEach(d=>{const o=document.createElement('option');o.value=d;o.textContent=d;pos.appendChild(o);});}
+  document.getElementById('other-desig-wrap').style.display='none';
+  document.getElementById('other-desig').value='';
+  calcProg();
+}
+function toggleOtherDesig(){
+  const pos=document.getElementById('position').value;
+  const wrap=document.getElementById('other-desig-wrap');
+  wrap.style.display=pos==='Other (Please Specify)'?'block':'none';
+  if(pos!=='Other (Please Specify)')document.getElementById('other-desig').value='';
+  calcProg();
+}
+const skills=[];
+function addSkill(){const inp=document.getElementById('skill-inp');const v=inp.value.trim();if(!v||skills.includes(v)){inp.value='';return;}skills.push(v);inp.value='';renderChips();}
+function removeSkill(s){const i=skills.indexOf(s);if(i>-1)skills.splice(i,1);renderChips();}
+function renderChips(){document.getElementById('chips').innerHTML=skills.map(s=>`<div class="chip">${s}<button onclick="removeSkill('${s.replace(/'/g,"\\'")}')">×</button></div>`).join('');}
+function handleCV(inp){const f=inp.files[0];if(!f)return;document.getElementById('cv-name').textContent=f.name;document.getElementById('cv-ok').style.display='block';calcProg();}
+function getRadio(name){const el=document.querySelector(`input[name="${name}"]:checked`);return el?el.value:'';}
+function calcProg(){
+  const tf=['fname','lname','email','phone','location','age','position','dept','exp','curpos','curorg','curctc','expctc','intdate','inttime'];
+  const rd=['relocate','intmode','physicalint'];
+  let filled=0,total=tf.length+rd.length+2;
+  tf.forEach(id=>{const el=document.getElementById(id);if(el&&el.value.trim()!=='')filled++;});
+  rd.forEach(n=>{if(getRadio(n)!=='')filled++;});
+  if(document.getElementById('cv-file').files.length>0)filled++;
+  if(document.getElementById('consent').checked)filled++;
+  const pct=Math.round((filled/total)*100);
+  document.getElementById('prog').style.width=pct+'%';
+  const steps=[[0,20,'Section 1 of 5 — Personal Information'],[20,40,'Section 2 of 5 — Role Details'],[40,60,'Section 3 of 5 — Current / Last Employment'],[60,80,'Section 4 of 5 — Interview Availability'],[80,101,'Section 5 of 5 — CV Upload & Consent']];
+  for(const[mn,mx,lbl]of steps){if(pct>=mn&&pct<mx){document.getElementById('step-lbl').textContent=lbl;break;}}
+}
+function submitForm(){
+  const checks=[{id:'fname',lbl:'First Name'},{id:'lname',lbl:'Last Name'},{id:'email',lbl:'Email Address'},{id:'phone',lbl:'Phone Number'},{id:'location',lbl:'Current Location'},{id:'age',lbl:'Age'},{id:'dept',lbl:'Department'},{id:'position',lbl:'Position Applied For'},{id:'exp',lbl:'Total Years of Experience'},{id:'curpos',lbl:'Current / Last Position'},{id:'curorg',lbl:'Current / Last Organisation'},{id:'curctc',lbl:'Current / Last CTC'},{id:'expctc',lbl:'Expected CTC'},{id:'intdate',lbl:'Available for Interview From'},{id:'inttime',lbl:'Preferred Interview Time Slot'}];
+  for(const f of checks){const el=document.getElementById(f.id);if(!el||el.value.trim()===''){alert('Please fill in: '+f.lbl);el&&el.focus();return;}}
+  if(document.getElementById('position').value==='Other (Please Specify)'&&!document.getElementById('other-desig').value.trim()){alert('Please specify your designation.');document.getElementById('other-desig').focus();return;}
+  if(!getRadio('relocate')){alert('Please indicate whether you are ready to relocate.');return;}
+  if(!getRadio('intmode')){alert('Please select your preferred interview mode.');return;}
+  if(!getRadio('physicalint')){alert('Please indicate whether you can attend a physical round of interview.');return;}
+  if(!document.getElementById('consent').checked){alert('Please accept the declaration and consent statement to proceed.');return;}
+  document.getElementById('prog').style.width='100%';
+  document.getElementById('step-lbl').textContent='Application Complete';
+  document.getElementById('ok-banner').style.display='block';
+  document.querySelector('.sub-btn').style.display='none';
+  document.getElementById('ok-banner').scrollIntoView({behavior:'smooth'});
+}
+</script>
